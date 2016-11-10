@@ -15,7 +15,7 @@ import butterknife.ButterKnife;
  */
 public class MeizhiApplication extends Application {
 
-    ApplicationComponent mAppComponent;
+    private ApplicationComponent mAppComponent;
 
     @Override
     public void onCreate() {
