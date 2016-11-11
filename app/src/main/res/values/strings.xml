@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MeizhiLook</string>
+    <string name="network_exception">请检查你的网络连接</string>
+    <string name="common_error">哦乎,出了点小问题哦</string>
 </resources>

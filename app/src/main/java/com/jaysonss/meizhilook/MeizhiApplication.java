@@ -9,6 +9,7 @@ import com.jaysonss.meizhilook.dagger.module.component.DaggerApplicationComponen
 import com.squareup.leakcanary.LeakCanary;
 
 import butterknife.ButterKnife;
+import rx.observables.ConnectableObservable;
 
 /**
  * Created by jaybor on 2016/11/10.
@@ -28,7 +29,6 @@ public class MeizhiApplication extends Application {
     private void initializeInjector() {
         mAppComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
-                .netWorkModule(new NetWorkModule())
                 .build();
     }
 

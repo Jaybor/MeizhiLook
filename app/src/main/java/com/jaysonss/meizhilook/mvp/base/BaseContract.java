@@ -10,6 +10,8 @@ public interface BaseContract {
 
     interface View {
         Context getContext();
+
+        void showToastMessage(String message);
     }
 
     interface Presenter {

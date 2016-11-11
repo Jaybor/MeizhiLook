@@ -59,6 +59,13 @@ dependencies {
     androidTestCompile 'com.android.support.test:runner:0.5'
     testCompile 'junit:junit:4.12'
 
+    //support&&design
+    compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    compile "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
+    compile "com.android.support:design:$rootProject.supportLibraryVersion"
+    compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
+    compile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
+
     //leakcanary
     debugCompile "com.squareup.leakcanary:leakcanary-android:$rootProject.leakCanaryVersion"
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leakCanaryVersion"
@@ -73,25 +80,22 @@ dependencies {
     compile "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
     compile "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
     compile "com.squareup.retrofit2:adapter-rxjava:$rootProject.retrofitVersion"
-    compile "com.squareup.okhttp3:okhttp:$rootProject.okhttpVersion"
     compile "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttpVersion"
     compile "com.squareup.okio:okio:$rootProject.okioVersion"
+    compile group: 'com.squareup.okhttp3', name: 'okhttp', version: "$rootProject.okhttpVersion"
 
     // rxjava
     compile "io.reactivex:rxandroid:$rootProject.rxAndroidVersion"
     compile "io.reactivex:rxjava:$rootProject.rxJavaVersion"
 
-    //support library
-    compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
-    compile "com.android.support:cardview-v7:$rootProject.supportLibraryVersion"
-    compile "com.android.support:design:$rootProject.supportLibraryVersion"
-    compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
-    compile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
-
     // Dagger dependencies
     apt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
     provided 'org.glassfish:javax.annotation:10.0-b28'
     compile "com.google.dagger:dagger:$rootProject.daggerVersion"
+
+    //glide
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
 
     // Resolve conflicts between main and test APK:
     androidTestCompile "com.android.support:support-annotations:$rootProject.supportLibraryVersion"
@@ -99,4 +103,5 @@ dependencies {
     androidTestCompile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
     androidTestCompile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
     androidTestCompile "com.android.support:design:$rootProject.supportLibraryVersion"
+
 }

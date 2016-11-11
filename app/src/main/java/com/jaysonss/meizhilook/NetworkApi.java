@@ -1,12 +1,11 @@
 package com.jaysonss.meizhilook;
 
-import android.database.Observable;
-
 import com.jaysonss.meizhilook.entities.Day;
 import com.jaysonss.meizhilook.entities.Meizhi;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import rx.Observable;
 
 /**
  * Created by jaybor on 2016/11/10.
