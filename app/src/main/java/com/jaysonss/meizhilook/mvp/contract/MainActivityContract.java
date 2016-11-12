@@ -11,12 +11,12 @@ public interface MainActivityContract {
 
     interface Presenter extends BaseContract.Presenter {
 
-        void loadMeizhi(int pageCount, int pageIndex);
+        void loadMeizhi(int pageCount, int pageIndex, boolean isRefresh);
 
     }
 
     interface View extends BaseContract.View {
-        void onLoadMeizhi(Meizhi meizhi);
+        void onLoadMeizhi(boolean isRefresh,Meizhi meizhi);
     }
 
 }

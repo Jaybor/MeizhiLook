@@ -8,9 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.jaysonss.meizhilook.R;
-
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -23,21 +20,11 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseCont
 
     private Unbinder mButterKnifeUnBinder;
 
-    @BindView(R.id.toolbar)
-    protected Toolbar mToolbar;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getContentViewId());
         mButterKnifeUnBinder = ButterKnife.bind(this);
-    }
-
-    protected void applyToolbar() {
-        if (mToolbar != null) {
-            setSupportActionBar(mToolbar);
-            mToolbar.setOnMenuItemClickListener(this);
-        }
     }
 
     @Override

@@ -1,7 +1,12 @@
 package com.jaysonss.meizhilook.dagger.module;
 
-import com.jaysonss.meizhilook.ActivityScope;
+import android.content.Context;
+
+import com.jaysonss.meizhilook.entities.DataInfo;
 import com.jaysonss.meizhilook.mvp.contract.MainActivityContract;
+import com.jaysonss.meizhilook.mvp.ui.adapter.MeizhiListRvAdapter;
+
+import java.util.List;
 
 import dagger.Module;
 import dagger.Provides;
@@ -12,15 +17,26 @@ import dagger.Provides;
 @Module
 public class MainActivityModule {
 
-    private MainActivityContract.View mView;
+    MainActivityContract.View mView;
 
-    public MainActivityModule(MainActivityContract.View view) {
+    Context mContext;
+
+    List<DataInfo> mDataInfoList;
+
+    public MainActivityModule(MainActivityContract.View view, Context context, List<DataInfo> dataInfoList) {
+        this.mContext = context;
         this.mView = view;
+        this.mDataInfoList = dataInfoList;
     }
 
     @Provides
     public MainActivityContract.View provideMainActivityCOntractView() {
         return mView;
+    }
+
+    @Provides
+    public MeizhiListRvAdapter provideMeizhiListRvAdapter() {
+        return new MeizhiListRvAdapter(mContext, mDataInfoList);
     }
 
 }

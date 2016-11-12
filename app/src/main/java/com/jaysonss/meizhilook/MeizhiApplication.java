@@ -3,13 +3,11 @@ package com.jaysonss.meizhilook;
 import android.app.Application;
 
 import com.jaysonss.meizhilook.dagger.module.ApplicationModule;
-import com.jaysonss.meizhilook.dagger.module.NetWorkModule;
 import com.jaysonss.meizhilook.dagger.module.component.ApplicationComponent;
 import com.jaysonss.meizhilook.dagger.module.component.DaggerApplicationComponent;
 import com.squareup.leakcanary.LeakCanary;
 
 import butterknife.ButterKnife;
-import rx.observables.ConnectableObservable;
 
 /**
  * Created by jaybor on 2016/11/10.
@@ -18,9 +16,16 @@ public class MeizhiApplication extends Application {
 
     private ApplicationComponent mAppComponent;
 
+    private static MeizhiApplication meizhiApplication;
+
+    public static MeizhiApplication getInstance() {
+        return meizhiApplication;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        meizhiApplication = this;
         initializeInjector();
         initializeMemoryLeakChecker();
         initializeButterKnifeLogger();

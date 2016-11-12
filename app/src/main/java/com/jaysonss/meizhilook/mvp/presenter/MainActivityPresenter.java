@@ -19,10 +19,11 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
     @Inject
     NetworkApi networkApi;
 
-    private MainActivityContract.View mView;
+    MainActivityContract.View mView;
 
-    @Inject
-    MainSubscriber mainSubscriber;
+    private MainSubscriber mainSubscriber;
+
+    private boolean isRefresh;
 
     @Inject
     public MainActivityPresenter(MainActivityContract.View view) {
@@ -30,7 +31,9 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
     }
 
     @Override
-    public void loadMeizhi(int pageCount, int pageIndex) {
+    public void loadMeizhi(int pageCount, int pageIndex, boolean isRefresh) {
+        this.isRefresh = isRefresh;
+        mainSubscriber = new MainSubscriber();
         mainSubscriber.add(
                 networkApi.getMeizhi(pageCount, pageIndex)
                         .subscribeOn(Schedulers.io())
@@ -41,12 +44,13 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 
     @Override
     public void onViewDetached() {
-        if (!mainSubscriber.isUnsubscribed()) {
+        if (mainSubscriber != null && !mainSubscriber.isUnsubscribed()) {
             mainSubscriber.unsubscribe();
         }
     }
 
-    private class MainSubscriber extends DefaultSubscriber<Meizhi> {
+    public class MainSubscriber extends DefaultSubscriber<Meizhi> {
+
         @Override
         public void onCompleted() {
             super.onCompleted();
@@ -57,7 +61,7 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
             if (meizhi.isError()) {
                 mView.showToastMessage(mView.getContext().getString(R.string.common_error));
             } else {
-                mView.onLoadMeizhi(meizhi);
+                mView.onLoadMeizhi(isRefresh, meizhi);
             }
         }
 
@@ -65,5 +69,6 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
         public void onError(Throwable e) {
             mView.showToastMessage(mView.getContext().getString(R.string.network_exception));
         }
+
     }
 }
