@@ -19,9 +19,7 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
     @Inject
     NetworkApi networkApi;
 
-    MainActivityContract.View mView;
-
-    private MainSubscriber mainSubscriber;
+    private MainActivityContract.View mView;
 
     private boolean isRefresh;
 
@@ -33,19 +31,18 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
     @Override
     public void loadMeizhi(int pageCount, int pageIndex, boolean isRefresh) {
         this.isRefresh = isRefresh;
-        mainSubscriber = new MainSubscriber();
-        mainSubscriber.add(
+        mView.getAsyncTasks().add(
                 networkApi.getMeizhi(pageCount, pageIndex)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(mainSubscriber)
+                        .subscribe(new MainSubscriber())
         );
     }
 
     @Override
     public void onViewDetached() {
-        if (mainSubscriber != null && !mainSubscriber.isUnsubscribed()) {
-            mainSubscriber.unsubscribe();
+        if (!mView.getAsyncTasks().isUnsubscribed()) {
+            mView.getAsyncTasks().clear();
         }
     }
 

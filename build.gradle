@@ -38,4 +38,6 @@ ext {
     gsonVersion = '2.4'
     rxJavaVersion = '1.1.6'
     rxAndroidVersion = '1.2.0'
+    glideVersion = '3.7.0'
+    loggerVersion = '1.15'
 }
