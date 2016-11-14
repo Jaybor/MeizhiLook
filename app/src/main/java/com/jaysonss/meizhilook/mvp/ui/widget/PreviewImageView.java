@@ -6,12 +6,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapRegionDecoder;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
+import android.view.ScaleGestureDetector;
+import android.widget.ImageView;
 
 import com.jaysonss.meizhilook.utils.gestures.MoveGestureDetector;
 import com.orhanobut.logger.Logger;
@@ -24,21 +26,27 @@ import java.io.InputStream;
  * 可用于加载大图
  */
 
-public class PreviewImageView extends View {
+public class PreviewImageView extends ImageView {
 
     private static final String TAG = "PreviewImageView";
 
-    private MoveGestureDetector mDetector;
+    private MoveGestureDetector mMoveGestureDetector;
+
+    private ScaleGestureDetector mScaleGestureDetector;
 
     private BitmapRegionDecoder mDecoder;
 
-    private Rect mRect = new Rect();
+    private Rect mRect;
 
     private int mImageWidth;
 
     private int mImageHeight;
 
-    private BitmapFactory.Options mOptions = new BitmapFactory.Options();
+    private BitmapFactory.Options mOptions;
+
+    private Matrix mMatrix;
+
+    private float mScaleFactor = 1.0f;
 
     public PreviewImageView(Context context) {
         super(context);
@@ -59,7 +67,26 @@ public class PreviewImageView extends View {
     }
 
     private void initial() {
-        mDetector = new MoveGestureDetector(getContext(), new MoveGestureDetector.SimpleMoveGestureDetectorListener() {
+        mOptions = new BitmapFactory.Options();
+        mRect = new Rect();
+        mMatrix = new Matrix();
+        mMatrix.postScale(mScaleFactor, mScaleFactor);
+        mScaleGestureDetector = new ScaleGestureDetector(getContext(), new ScaleGestureDetector.SimpleOnScaleGestureListener() {
+            @Override
+            public boolean onScale(ScaleGestureDetector detector) {
+                mScaleFactor *= detector.getScaleFactor();
+                if (mScaleFactor > 3 || mScaleFactor < 0.5) {
+                    return false;
+                }
+                mMatrix.setScale(mScaleFactor, mScaleFactor);
+                mImageWidth *= mScaleFactor;
+                mImageHeight *= mScaleFactor;
+                invalidate();
+                return true;
+            }
+        });
+
+        mMoveGestureDetector = new MoveGestureDetector(getContext(), new MoveGestureDetector.SimpleMoveGestureDetectorListener() {
             @Override
             public boolean onMove(MoveGestureDetector moveGestureDetector) {
                 int moveX = (int) moveGestureDetector.getMoveX();
@@ -140,14 +167,6 @@ public class PreviewImageView extends View {
 
         mRect.left = imageWidth / 2 - width / 2;
         mRect.top = imageHeight / 2 - height / 2;
-
-        if (mRect.left < 0) {
-            mRect.left = 0;
-        }
-
-        if (mRect.top < 0) {
-            mRect.top = 0;
-        }
         mRect.right = mRect.left + width;
         mRect.bottom = mRect.top + height;
     }
@@ -156,13 +175,14 @@ public class PreviewImageView extends View {
     protected void onDraw(Canvas canvas) {
         if (mDecoder != null) {
             Bitmap bitmap = mDecoder.decodeRegion(mRect, mOptions);
-            canvas.drawBitmap(bitmap, 0, 0, null);
+            canvas.drawBitmap(bitmap, mMatrix, null);
         }
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        mDetector.onTouchEvent(event);
+        mMoveGestureDetector.onTouchEvent(event);
+        mScaleGestureDetector.onTouchEvent(event);
         return true;
     }
 }
