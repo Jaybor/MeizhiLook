@@ -1,0 +1,20 @@
+<resources>
+    <declare-styleable name="MyView">
+        <attr name="exampleString" format="string" />
+        <attr name="exampleDimension" format="dimension" />
+        <attr name="exampleColor" format="color" />
+        <attr name="exampleDrawable" format="color|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="ScaleTypeImageView">
+        <attr name="scaleTypee" format="enum">
+            <enum name="center" value="0"/>
+            <enum name="centerInside" value="1"/>
+            <enum name="centerCrop" value="2"/>
+            <enum name="fitStart" value="3"/>
+            <enum name="fitCenter" value="4"/>
+            <enum name="fitEnd" value="5"/>
+            <enum name="fitXY" value="6"/>
+        </attr>
+    </declare-styleable>
+</resources>

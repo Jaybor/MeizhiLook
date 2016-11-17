@@ -109,5 +109,6 @@ dependencies {
 
     //photoview
     compile "com.github.chrisbanes.photoview:library:1.2.3"
+    compile 'me.kareluo.intensify:image:1.1.0'
 
 }
